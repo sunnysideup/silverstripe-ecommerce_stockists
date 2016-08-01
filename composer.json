@@ -1,7 +1,7 @@
 {
     "name": "sunnysideup/ecommerce_stockists",
     "type": "silverstripe-module",
-    "description": "Add stockists to your e-commerce application",
+    "description": "Add stockists (retailers list) to your Silverstripe E-commerce application",
     "keywords": ["e-commerce", "shop", "ecommerce", "stockists", "retailers", "agents"],
     "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
     "authors":[
