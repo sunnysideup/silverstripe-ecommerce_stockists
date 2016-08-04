@@ -190,11 +190,6 @@ class ImportStockistsTask extends BuildTask {
 
             //types
 
-
-            /*
-             * All PICS stockists are retailers
-             * */
-
             $type = "Retailer";
 
             flush(); ob_end_flush(); DB::alteration_message(" --- Adding type: ".$type, "changed");ob_start();
