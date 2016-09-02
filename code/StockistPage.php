@@ -144,7 +144,8 @@ class StockistPage extends Page {
         $fields->addFieldToTab('Root.Map', new ReadonlyField("CountryCode"));
         $fields->addFieldToTab('Root.Map', new ReadonlyField("DistributorName"));
         if($distributor = $this->getDistributor()) {
-            $fields->addFieldToTab('Root.Map', new LiteralField("MyDistributorLink", "<h5><a href=\"".$distributor->CMSEditLink()."\">edit my distributor</a></h5>"));
+            $fields->addFieldToTab('Root.Map',
+                new LiteralField("MyDistributorLink", "<h5><a href=\"".$distributor->CMSEditLink()."\">edit my " . _t('Distributor.SINGULAR_NAME', 'Distributor') . ' </a></h5>'));
         }
         return $fields;
     }
