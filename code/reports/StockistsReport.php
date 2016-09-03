@@ -166,11 +166,12 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      * @return DataList
      */
     function sourceRecords($params = null) {
-        $stage = Versioned::current_stage();
-        if($stage) {
-            $stage = "_".$stage;
+        $stage = '';
+        if (Versioned::current_stage() == 'Live') {
+            $stage = '_Live';
         }
-        return StockistPage::get()->where("GoogleMapLocationsObject.ID IS NULL OR HasGeoInfo = 0")->leftJoin("GoogleMapLocationsObject", "GoogleMapLocationsObject.ParentID = StockistPage".$stage.".ID");
+        return StockistPage::get()->where("GoogleMapLocationsObject.ID IS NULL OR HasGeoInfo = 0")
+            ->leftJoin("GoogleMapLocationsObject", "GoogleMapLocationsObject.ParentID = StockistPage".$stage.".ID");
     }
 
     /**
@@ -232,10 +233,6 @@ class StockistsReport_OnlineStockists extends SS_Report {
      * @return DataList
      */
     function sourceRecords($params = null) {
-        $stage = Versioned::current_stage();
-        if($stage) {
-            $stage = "_".$stage;
-        }
         return StockistPage::get()->filter(array("HasWebStore" => 1));
     }
 
@@ -259,4 +256,3 @@ class StockistsReport_OnlineStockists extends SS_Report {
         return new FieldList();
     }
 }
-
