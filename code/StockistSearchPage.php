@@ -1,6 +1,7 @@
 <?php
 
-class StockistSearchPage extends Page {
+class StockistSearchPage extends Page
+{
 
     /**
      * @inherited
@@ -43,33 +44,41 @@ class StockistSearchPage extends Page {
      * Standard SS variable.
      */
     private static $singular_name = "Stockist Search Page";
-        function i18n_singular_name() { return "Stockist Search Page";}
+    public function i18n_singular_name()
+    {
+        return "Stockist Search Page";
+    }
 
     /**
      * Standard SS variable.
      */
     private static $plural_name = "Stockist Search Pages";
-        function i18n_plural_name() { return "Stockist Search Pages";}
+    public function i18n_plural_name()
+    {
+        return "Stockist Search Pages";
+    }
 
     /**
      * @inherited
      */
-   public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $fields->removeByName("Map");
-        $fields->addFieldToTab(
+   public function getCMSFields()
+   {
+       $fields = parent::getCMSFields();
+       $fields->removeByName("Map");
+       $fields->addFieldToTab(
             "Root.SearchHistory", new LiteralField("SearchHistoryLink", "<a href=\"".$this->Link("showsearches")."\">What did people search for?</a>")
         );
-        $fields->addFieldToTab('Root.Map', $defaultZoomField = new NumericField('DefaultZoom'));
-        $defaultZoomField->setRightTitle('Set between 1 and 20.  One is the whole world and twenty is highest zoom level for map. Leave at zero for auto-zoom.');
-        return $fields;
-    }
+       $fields->addFieldToTab('Root.Map', $defaultZoomField = new NumericField('DefaultZoom'));
+       $defaultZoomField->setRightTitle('Set between 1 and 20.  One is the whole world and twenty is highest zoom level for map. Leave at zero for auto-zoom.');
+       return $fields;
+   }
 
     /**
      *
      * can only create one
      */
-    public function canCreate($member = null) {
+    public function canCreate($member = null)
+    {
         return StockistSearchPage::get()
             ->filter(array("ClassName" => "StockistSearchPage"))
             ->count() ? false : true;
@@ -80,8 +89,9 @@ class StockistSearchPage extends Page {
      * returns a list of continents
      * @return DataList
      */
-    function AllContintents(){
-        if($root = $this->StockistSearchPage()) {
+    public function AllContintents()
+    {
+        if ($root = $this->StockistSearchPage()) {
             return StockistCountryPage::get()->filter(array("ParentID" => $root->ID))->sort(array("Title" => "ASC"));
         }
     }
@@ -90,7 +100,8 @@ class StockistSearchPage extends Page {
      * this is only provided on a country level
      * @return DataList | Null
      */
-    function AllPhysicalStockists(){
+    public function AllPhysicalStockists()
+    {
         return null;
     }
 
@@ -98,28 +109,29 @@ class StockistSearchPage extends Page {
      * this is only provided on a country level
      * @return DataList | Null
      */
-    function AllOnlineStockists(){
+    public function AllOnlineStockists()
+    {
         return null;
     }
 
     /**
      * @return Boolean
      */
-    function HasPhysicalStockistsANDOnlineStockists(){
+    public function HasPhysicalStockistsANDOnlineStockists()
+    {
         $a = $this->AllPhysicalStockists();
         $b = $this->AllOnlineStockists();
-        if($a && $b) {
-            if($a->count() && $b->count()) {
+        if ($a && $b) {
+            if ($a->count() && $b->count()) {
                 return true;
             }
         }
         return false;
     }
-
-
 }
 
-class StockistSearchPage_Controller extends Page_Controller {
+class StockistSearchPage_Controller extends Page_Controller
+{
 
     /**
      * @inherited
@@ -143,7 +155,7 @@ class StockistSearchPage_Controller extends Page_Controller {
         $this->HasGeoInfo = true;
     }
 
-    function index()
+    public function index()
     {
         $this->addMap(
             $action = "showpointbyid",
@@ -155,7 +167,8 @@ class StockistSearchPage_Controller extends Page_Controller {
         return array();
     }
 
-    function MyAddAddressFinderForm() {
+    public function MyAddAddressFinderForm()
+    {
         return $this->AddressFinderForm(array("StockistPage"));
     }
 
@@ -169,28 +182,29 @@ class StockistSearchPage_Controller extends Page_Controller {
      *
      * @return DataList of GoogleMapLocationsObject
      */
-    protected function locationsForCurrentCountry() {
+    protected function locationsForCurrentCountry()
+    {
         $objects = null;
-        if($this->myCurrentCountryCode) {
+        if ($this->myCurrentCountryCode) {
             $objects = GoogleMapLocationsObject::get()->filter(array("CountryNameCode" => $this->myCurrentCountryCode));
-            if($objects->count()) {
+            if ($objects->count()) {
                 return $objects;
             }
         }
         return GoogleMapLocationsObject::get();
     }
 
-    function AlphaList()
+    public function AlphaList()
     {
-        if($objects = $this->locationsForCurrentCountry()) {
+        if ($objects = $this->locationsForCurrentCountry()) {
             $parents = $objects->column('ParentID');
-            if(count($parents)) {
+            if (count($parents)) {
                 $pages = StockistPage::get()->filter(
                     array(
                         "ID" => $parents
                     )
                 );
-                if($pages->count() < 25) {
+                if ($pages->count() < 25) {
                     return $pages;
                 }
             }
@@ -200,9 +214,10 @@ class StockistSearchPage_Controller extends Page_Controller {
     /**
      * @return DataList
      */
-    public function Countries() {
+    public function Countries()
+    {
         $objects = StockistCountryPage::get()->filter(array("ParentID" => $this->ID))->sort(array("Title" => "ASC"));
-        if($objects->count() == 0) {
+        if ($objects->count() == 0) {
             return StockistCountryPage::get()->filter(array("ID" => $this->ID));
         }
         return $objects;
@@ -212,16 +227,19 @@ class StockistSearchPage_Controller extends Page_Controller {
      * for template
      * @return Boolean
      */
-    function IsSearchPage(){
+    public function IsSearchPage()
+    {
         return true;
     }
 
-    function IsStockistPage(){
+    public function IsStockistPage()
+    {
         return true;
     }
 
-    function showsearches() {
-        if(Permission::check('ADMIN')) {
+    public function showsearches()
+    {
+        if (Permission::check('ADMIN')) {
             $sql = "
                 SELECT SearchedFor
                 FROM \"GoogleMapSearchRecord\"
@@ -229,9 +247,9 @@ class StockistSearchPage_Controller extends Page_Controller {
                 LIMIT 10000
             ";
             $rows = DB::query($sql);
-            if($rows) {
+            if ($rows) {
                 $this->Content .= "<h2>previous searches</h2><ul>";
-                foreach($rows as $row) {
+                foreach ($rows as $row) {
                     $this->Content .= "<li>".$row["SearchedFor"]."</li>";
                 }
                 $this->Content .= "</ul>";
@@ -245,7 +263,8 @@ class StockistSearchPage_Controller extends Page_Controller {
      *
      * @param HTTPRequest
      */
-    function showtype($request) {
+    public function showtype($request)
+    {
         $type = $request->param("ID");
         return $this->redirect($this->Link()."#".$this->Link("showtype/$type/"));
     }
@@ -255,11 +274,11 @@ class StockistSearchPage_Controller extends Page_Controller {
      * a page.
      * @return String
      */
-    function MyStockistCountryTitle(){
-        if($this->myCurrentCountryCode) {
+    public function MyStockistCountryTitle()
+    {
+        if ($this->myCurrentCountryCode) {
             return EcommerceCountry::find_title($this->myCurrentCountryCode);
-        }
-        else {
+        } else {
             return $this->MyCountryTitle();
         }
     }
@@ -273,8 +292,8 @@ class StockistSearchPage_Controller extends Page_Controller {
      *
      * download CSV action
      */
-    function listofstockistscsv(){
-
+    public function listofstockistscsv()
+    {
         $html = $this->createListOfStockists();
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
 
@@ -291,22 +310,22 @@ class StockistSearchPage_Controller extends Page_Controller {
         $htmlTable = $dom->getElementsByTagName('table');
         $htmlRows = $htmlTable->item(0)->getElementsByTagName('tr');
         $rowArray = array();
-        foreach($htmlRows as $htmlRow) {
+        foreach ($htmlRows as $htmlRow) {
             $headerCells = array();
             $htmlHeaders = $htmlRow->getElementsByTagName('th');
-            foreach($htmlHeaders as $htmlHeader){
+            foreach ($htmlHeaders as $htmlHeader) {
                 $headerCells [] = $htmlHeader->nodeValue;
             }
             $htmlCells = $htmlRow->getElementsByTagName('td');
             $rowCells = array();
-            foreach( $htmlCells as $htmlCell) {
+            foreach ($htmlCells as $htmlCell) {
                 $rowCells [] = $htmlCell->nodeValue;
             }
             $rowArray[] = '"'.implode('", "', array_merge($headerCells, $rowCells)).'"';
         }
         $csv = implode("\r\n", $rowArray);
         $filename_prefix = 'stockists';
-        $filename = $filename_prefix."_".date("Y-m-d_H-i",time());
+        $filename = $filename_prefix."_".date("Y-m-d_H-i", time());
 
         //Generate the CSV file header
         header("Content-type: application/vnd.ms-excel");
@@ -317,7 +336,6 @@ class StockistSearchPage_Controller extends Page_Controller {
         echo "\xEF\xBB\xBF"; // UTF-8 BOM
         //Print the contents of out to the generated file.
         print $csv;
-
     }
 
 
@@ -325,21 +343,22 @@ class StockistSearchPage_Controller extends Page_Controller {
      *
      * create HTML row for table of stockists
      */
-    private function getChildrenAsHTMLRows($parent) {
+    private function getChildrenAsHTMLRows($parent)
+    {
         $childGroups = DataObject::get("SiteTree", "ParentID = ".$parent->ID);
         $html = "";
-        if($childGroups) {
-            foreach($childGroups as $childGroup) {
+        if ($childGroups) {
+            foreach ($childGroups as $childGroup) {
                 $html .= $this->getChildrenAsHTMLRows($childGroup);
             }
         }
         $childStockists = DataObject::get("StockistPage", "ParentID = ".$parent->ID);
-        if($childStockists) {
-            foreach($childStockists as $stockist) {
+        if ($childStockists) {
+            foreach ($childStockists as $stockist) {
                 $stockistParent = $stockist;
                 $parentNames = array();
                 $stockistParent = DataObject::get_by_id("SiteTree", $stockistParent->ParentID);
-                while($stockistParent && ($stockistParent->ParentID)) {
+                while ($stockistParent && ($stockistParent->ParentID)) {
                     $parentNames[] = $stockistParent->Title;
                     $stockistParent = DataObject::get_by_id("SiteTree", $stockistParent->ParentID);
                 }
@@ -363,14 +382,16 @@ class StockistSearchPage_Controller extends Page_Controller {
      *
      * view list of stockists on blank screen with download link
      */
-    function listofstockists(){
+    public function listofstockists()
+    {
         $html = "<h4><a href=\"".$this->Link("listofstockistscsv")."\">download csv file for Excel</a></h4>";
         $html .= $this->createListOfStockists();
         return $html;
     }
 
 
-    private function createListOfStockists() {
+    private function createListOfStockists()
+    {
         $html = "
         <table border=\"1\">
             <tr>
@@ -388,17 +409,16 @@ class StockistSearchPage_Controller extends Page_Controller {
     }
 
 
-    function updatemap() {
+    public function updatemap()
+    {
         $pages = StockistPage::get()
             ->filter(array("HasGeoInfo" => 0));
-        if($pages && $pages->count()) {
-            foreach($pages as $page) {
+        if ($pages && $pages->count()) {
+            foreach ($pages as $page) {
                 $page->write();
                 $page->publish('Stage', 'Live');
             }
         }
         die("locations updated");
     }
-
-
 }

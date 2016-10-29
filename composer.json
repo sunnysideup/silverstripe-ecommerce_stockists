@@ -3,6 +3,9 @@
     "type": "silverstripe-module",
     "description": "Add stockists (retailers list) to your Silverstripe E-commerce application",
     "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
         "e-commerce",
         "shop",
         "ecommerce",
@@ -19,8 +22,9 @@
         }
     ],
     "require": {
-        "silverstripe/framework": "^3.4",
-        "sunnysideup/ecommerce": "*"
+        "silverstripe/framework": "~3.1",
+        "sunnysideup/ecommerce": "*",
+        "silverstripe/cms": "~3.1"
     },
     "extra": {
         "installer-name": "ecommerce_stockists"

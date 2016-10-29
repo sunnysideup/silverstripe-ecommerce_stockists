@@ -7,7 +7,8 @@
  * @inspiration: Silverstripe Ltd, Jeremy
  **/
 
-class StockistsReport_WithoutAPicture extends SS_Report {
+class StockistsReport_WithoutAPicture extends SS_Report
+{
 
     /**
      * The class of object being managed by this report.
@@ -19,7 +20,8 @@ class StockistsReport_WithoutAPicture extends SS_Report {
      *
      * @return String
      */
-    function title() {
+    public function title()
+    {
         return "STOCKISTS: without a picture (".$this->sourceRecords()->count().")";
     }
 
@@ -27,7 +29,8 @@ class StockistsReport_WithoutAPicture extends SS_Report {
      * not sure if this is used in SS3
      * @return String
      */
-    function group() {
+    public function group()
+    {
         return "Stockists";
     }
 
@@ -35,7 +38,8 @@ class StockistsReport_WithoutAPicture extends SS_Report {
      *
      * @return INT - for sorting reports
      */
-    function sort() {
+    public function sort()
+    {
         return 9000;
     }
 
@@ -43,14 +47,16 @@ class StockistsReport_WithoutAPicture extends SS_Report {
      * working out the items
      * @return DataList
      */
-    function sourceRecords($params = null) {
+    public function sourceRecords($params = null)
+    {
         return StockistPage::get()->filter(array("ImageID" => 0));
     }
 
     /**
      * @return Array
      */
-    function columns() {
+    public function columns()
+    {
         return array(
             "Title" => array(
                 "title" => "FullName",
@@ -63,12 +69,14 @@ class StockistsReport_WithoutAPicture extends SS_Report {
      *
      * @return FieldList
      */
-    public function getParameterFields() {
+    public function getParameterFields()
+    {
         return new FieldList();
     }
 }
 
-class StockistsReport_WithoutALogo extends SS_Report {
+class StockistsReport_WithoutALogo extends SS_Report
+{
 
     /**
      * The class of object being managed by this report.
@@ -80,7 +88,8 @@ class StockistsReport_WithoutALogo extends SS_Report {
      *
      * @return String
      */
-    function title() {
+    public function title()
+    {
         return "STOCKISTS: without a logo (".$this->sourceRecords()->count().")";
     }
 
@@ -88,7 +97,8 @@ class StockistsReport_WithoutALogo extends SS_Report {
      * not sure if this is used in SS3
      * @return String
      */
-    function group() {
+    public function group()
+    {
         return "Stockists";
     }
 
@@ -96,7 +106,8 @@ class StockistsReport_WithoutALogo extends SS_Report {
      *
      * @return INT - for sorting reports
      */
-    function sort() {
+    public function sort()
+    {
         return 9000;
     }
 
@@ -104,14 +115,16 @@ class StockistsReport_WithoutALogo extends SS_Report {
      * working out the items
      * @return DataList
      */
-    function sourceRecords($params = null) {
+    public function sourceRecords($params = null)
+    {
         return StockistPage::get()->filter(array("LogoID" => 0));
     }
 
     /**
      * @return Array
      */
-    function columns() {
+    public function columns()
+    {
         return array(
             "Title" => array(
                 "title" => "FullName",
@@ -124,12 +137,14 @@ class StockistsReport_WithoutALogo extends SS_Report {
      *
      * @return FieldList
      */
-    public function getParameterFields() {
+    public function getParameterFields()
+    {
         return new FieldList();
     }
 }
 
-class StockistsReport_WithoutAnAddress extends SS_Report {
+class StockistsReport_WithoutAnAddress extends SS_Report
+{
 
     /**
      * The class of object being managed by this report.
@@ -141,7 +156,8 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      *
      * @return String
      */
-    function title() {
+    public function title()
+    {
         return "STOCKISTS: without an address (".$this->sourceRecords()->count().")";
     }
 
@@ -149,7 +165,8 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      * not sure if this is used in SS3
      * @return String
      */
-    function group() {
+    public function group()
+    {
         return "Stockists";
     }
 
@@ -157,7 +174,8 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      *
      * @return INT - for sorting reports
      */
-    function sort() {
+    public function sort()
+    {
         return 9000;
     }
 
@@ -165,7 +183,8 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      * working out the items
      * @return DataList
      */
-    function sourceRecords($params = null) {
+    public function sourceRecords($params = null)
+    {
         $stage = '';
         if (Versioned::current_stage() == 'Live') {
             $stage = '_Live';
@@ -177,7 +196,8 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
     /**
      * @return Array
      */
-    function columns() {
+    public function columns()
+    {
         return array(
             "Title" => array(
                 "title" => "FullName",
@@ -190,13 +210,15 @@ class StockistsReport_WithoutAnAddress extends SS_Report {
      *
      * @return FieldList
      */
-    public function getParameterFields() {
+    public function getParameterFields()
+    {
         return new FieldList();
     }
 }
 
 
-class StockistsReport_OnlineStockists extends SS_Report {
+class StockistsReport_OnlineStockists extends SS_Report
+{
 
     /**
      * The class of object being managed by this report.
@@ -208,7 +230,8 @@ class StockistsReport_OnlineStockists extends SS_Report {
      *
      * @return String
      */
-    function title() {
+    public function title()
+    {
         return "STOCKISTS: has online store (".$this->sourceRecords()->count().")";
     }
 
@@ -216,7 +239,8 @@ class StockistsReport_OnlineStockists extends SS_Report {
      * not sure if this is used in SS3
      * @return String
      */
-    function group() {
+    public function group()
+    {
         return "Stockists";
     }
 
@@ -224,7 +248,8 @@ class StockistsReport_OnlineStockists extends SS_Report {
      *
      * @return INT - for sorting reports
      */
-    function sort() {
+    public function sort()
+    {
         return 9000;
     }
 
@@ -232,14 +257,16 @@ class StockistsReport_OnlineStockists extends SS_Report {
      * working out the items
      * @return DataList
      */
-    function sourceRecords($params = null) {
+    public function sourceRecords($params = null)
+    {
         return StockistPage::get()->filter(array("HasWebStore" => 1));
     }
 
     /**
      * @return Array
      */
-    function columns() {
+    public function columns()
+    {
         return array(
             "Title" => array(
                 "title" => "FullName",
@@ -252,7 +279,8 @@ class StockistsReport_OnlineStockists extends SS_Report {
      *
      * @return FieldList
      */
-    public function getParameterFields() {
+    public function getParameterFields()
+    {
         return new FieldList();
     }
 }

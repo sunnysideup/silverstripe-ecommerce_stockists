@@ -1,6 +1,7 @@
 <?php
 
-class StockistPage extends Page {
+class StockistPage extends Page
+{
 
     /**
      * @inherited
@@ -28,13 +29,19 @@ class StockistPage extends Page {
      * Standard SS variable.
      */
     private static $singular_name = "Stockist Page";
-        function i18n_singular_name() { return "Stockist Page";}
+    public function i18n_singular_name()
+    {
+        return "Stockist Page";
+    }
 
     /**
      * Standard SS variable.
      */
     private static $plural_name = "Stockist Pages";
-        function i18n_plural_name() { return "Stockist Pages";}
+    public function i18n_plural_name()
+    {
+        return "Stockist Pages";
+    }
 
     /**
      * @inherited
@@ -96,7 +103,8 @@ class StockistPage extends Page {
     /**
      * @inherited
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $fields = parent::getCMSFields();
 
         $fields->addFieldsToTab('Root.Images', array(
@@ -143,7 +151,7 @@ class StockistPage extends Page {
         $fields->addFieldToTab('Root.Map', new ReadonlyField("CountryName"));
         $fields->addFieldToTab('Root.Map', new ReadonlyField("CountryCode"));
         $fields->addFieldToTab('Root.Map', new ReadonlyField("DistributorName"));
-        if($distributor = $this->getDistributor()) {
+        if ($distributor = $this->getDistributor()) {
             $fields->addFieldToTab('Root.Map',
                 new LiteralField("MyDistributorLink", "<h5><a href=\"".$distributor->CMSEditLink()."\">edit my " . _t('Distributor.SINGULAR_NAME', 'Distributor') . ' </a></h5>'));
         }
@@ -154,7 +162,8 @@ class StockistPage extends Page {
      * checks the map point
      * @inherited
      */
-    function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         $this->createMapPoint();
         parent::onBeforeWrite();
     }
@@ -162,28 +171,26 @@ class StockistPage extends Page {
     /**
      * checks the map details if it has a map...
      */
-    public function createMapPoint() {
-        if($this->HasPhysicalStore && $this->Address) {
-            if($map = GoogleMapLocationsObject::get()
+    public function createMapPoint()
+    {
+        if ($this->HasPhysicalStore && $this->Address) {
+            if ($map = GoogleMapLocationsObject::get()
                 ->filter(array("ParentID" => $this->ID))
                 ->First()
             ) {
                 //do nothing;
-            }
-            else {
+            } else {
                 $map = new GoogleMapLocationsObject();
             }
             $map->PointType = "point";
             $map->ParentID = $this->ID;
             $map->Address = $this->Address;
-            if($map->findGooglePointsAndWriteIfFound()) {
+            if ($map->findGooglePointsAndWriteIfFound()) {
                 $this->HasGeoInfo = true;
-            }
-            else {
+            } else {
                 $this->HasGeoInfo = false;
             }
-        }
-        else {
+        } else {
             $this->HasGeoInfo = false;
         }
     }
@@ -192,7 +199,8 @@ class StockistPage extends Page {
      *
      * @return String
      */
-    function CustomAjaxInfoWindow() {
+    public function CustomAjaxInfoWindow()
+    {
         return $this->renderWith("StockistAddressOnMap");
     }
 
@@ -200,8 +208,9 @@ class StockistPage extends Page {
      * provides a links to Google Maps to search for directions
      * @return String
      */
-    function DirectionsLink(){
-        if($this->Address) {
+    public function DirectionsLink()
+    {
+        if ($this->Address) {
             return "https://www.google.com/maps/dir//".urlencode($this->Address);
         }
     }
@@ -212,7 +221,8 @@ class StockistPage extends Page {
      *
      * @return string
      */
-    public function EncodedEmailLink() {
+    public function EncodedEmailLink()
+    {
         $obj = HideMailto::convert_email($this->Email, "Enquiry from www.davidtrubridge.com");
         return $obj->MailTo;
     }
@@ -223,7 +233,8 @@ class StockistPage extends Page {
      *
      * @return string
      */
-    public function EncodedEmailText() {
+    public function EncodedEmailText()
+    {
         $obj = HideMailto::convert_email($this->Email, "Enquiry from www.davidtrubridge.com");
         return $obj->Text;
     }
@@ -232,76 +243,92 @@ class StockistPage extends Page {
      *
      * @erturn string
      */
-    function AjaxLink() {
+    public function AjaxLink()
+    {
         return $this->Link("ajaxversion")."/";
     }
 
     /**
      * @return Distributor
      */
-    function Distributor(){return $this->getDistributor();}
-    function getDistributor(){
+    public function Distributor()
+    {
+        return $this->getDistributor();
+    }
+    public function getDistributor()
+    {
         return Distributor::get_one_for_country($this->getCountryCode());
     }
 
     /**
      * @return Distributor
      */
-    function DistributorName(){ return $this->getDistributorName();}
-    function getDistributorName(){
-        if($distributor = $this->Distributor()) {
+    public function DistributorName()
+    {
+        return $this->getDistributorName();
+    }
+    public function getDistributorName()
+    {
+        if ($distributor = $this->Distributor()) {
             return $distributor->Name;
         }
     }
 
-    function CountryName(){ return $this->getCountryName();}
-    function getCountryName(){
+    public function CountryName()
+    {
+        return $this->getCountryName();
+    }
+    public function getCountryName()
+    {
         return EcommerceCountry::find_title($this->getCountryCode());
     }
     /**
      * alias for getPointValues
      * @return String
      */
-    function PointValues($fieldNameArray = 'LocalityName') { return $this->getPointValues($fieldNameArray); }
+    public function PointValues($fieldNameArray = 'LocalityName')
+    {
+        return $this->getPointValues($fieldNameArray);
+    }
 
     /**
-     * returns, for example, an array for all the cities 
+     * returns, for example, an array for all the cities
      * for a stockist (based on their Geo Locations)
      * NB... values are cached...
-     * 
+     *
      * @param string $fieldName
      * @return array
-     */ 
-    function getPointValues($fieldNameArray) {
-   
+     */
+    public function getPointValues($fieldNameArray)
+    {
         $safeFieldNameArray = array();
         foreach ($fieldNameArray as $fieldName) {
             $safeFieldName = Convert::raw2sql($fieldName);
-            array_push ($safeFieldNameArray, $safeFieldName);
+            array_push($safeFieldNameArray, $safeFieldName);
         };
         
         $fieldNameArray = $safeFieldNameArray;
         
         $cachekey = "getPointField".'_'.$this->ID.'_'.implode('_', $fieldNameArray).'_'.preg_replace('/[^a-z\d]/i', '_', $this->LastEdited);
-        $cache = SS_Cache::factory($cachekey); 
+        $cache = SS_Cache::factory($cachekey);
         if (!($result = $cache->load($cachekey))) {
             $array = array();
             if ($this->HasGeoInfo) {
                 $points = GoogleMapLocationsObject::get()
                     ->filter(array("ParentID" => $this->ID));
 
-                if($points->count()) {
-                    foreach($points as $point) {
+                if ($points->count()) {
+                    foreach ($points as $point) {
                         $tempArray = array();
-                        foreach($fieldNameArray as $tempField) {
-                            if(trim($point->$tempField) && !in_array($point->$tempField, $tempArray)) {
+                        foreach ($fieldNameArray as $tempField) {
+                            if (trim($point->$tempField) && !in_array($point->$tempField, $tempArray)) {
                                 $tempArray[] = $point->$tempField;
                             }
                         }
                         
                         $string = implode(', ', $tempArray);
                         if ($string) {
-                            $array[$string] = $string; 
+                            $array[$string] = $string;
                         }
                     }
                 }
@@ -310,40 +337,47 @@ class StockistPage extends Page {
             return $array;
         }
 
-        return unserialize($result);        
+        return unserialize($result);
     }
 
     /**
      * @return String
      */
-    function CountryCode(){ return $this->getCountryCode();}
-    function getCountryCode(){
+    public function CountryCode()
+    {
+        return $this->getCountryCode();
+    }
+    public function getCountryCode()
+    {
         $parent = StockistCountryPage::get()->byID($this->ParentID);
         $x = 0;
-        while($parent && !$parent->CountryCode && $x < 10) {
+        while ($parent && !$parent->CountryCode && $x < 10) {
             $parent = StockistCountryPage::get()->byID($parent->ParentID);
             $x++;
         }
-        if(!$parent || !$parent->CountryCode) {
+        if (!$parent || !$parent->CountryCode) {
             return EcommerceConfig::get('EcommerceCountry', 'default_country_code');
         }
         return $parent->CountryCode;
     }
 
-    function getPhoneWithoutSpaces(){
+    public function getPhoneWithoutSpaces()
+    {
         return preg_replace("/[^0-9+]/", "", $this->Phone);
     }
 
-    function types() {
+    public function types()
+    {
         return "Retailer";
     }
 }
 
-class StockistPage_Controller extends Page_Controller {
-
+class StockistPage_Controller extends Page_Controller
+{
     private static $allowed_actions = array("ajaxversion");
 
-    function init() {
+    public function init()
+    {
         parent::init();
         $zoom = $this->DefaultZoom ? $this->DefaultZoom : 15;
         Config::inst()->update("GoogleMap", "default_zoom", $zoom);
@@ -355,24 +389,22 @@ class StockistPage_Controller extends Page_Controller {
      * return ajax version...
      * @return String (HTML)
      */
-    function ajaxversion($request){
-        if($request->getVar("colorbox")) {
+    public function ajaxversion($request)
+    {
+        if ($request->getVar("colorbox")) {
             Requirements::clear();
             Requirements::themedCSS("reset");
             Requirements::themedCSS("typography");
             Requirements::themedCSS("individualPages");
             Requirements::javascript("https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
             return $this->renderWith("StockistWrapper");
-        }
-        else {
+        } else {
             return $this->redirect($this->Link());
         }
     }
 
-    function IsStockistPage(){
+    public function IsStockistPage()
+    {
         return true;
     }
-
-
-
 }

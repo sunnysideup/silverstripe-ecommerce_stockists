@@ -7,7 +7,8 @@
  * @inspiration: Silverstripe Ltd, Jeremy
  **/
 
-class StockistsCountryReports_WithoutCountry extends SS_Report {
+class StockistsCountryReports_WithoutCountry extends SS_Report
+{
 
     /**
      * The class of object being managed by this report.
@@ -19,7 +20,8 @@ class StockistsCountryReports_WithoutCountry extends SS_Report {
      *
      * @return String
      */
-    function title() {
+    public function title()
+    {
         return "STOCKISTS: stockist countries without a country (".$this->sourceRecords()->count().")";
     }
 
@@ -27,7 +29,8 @@ class StockistsCountryReports_WithoutCountry extends SS_Report {
      * not sure if this is used in SS3
      * @return String
      */
-    function group() {
+    public function group()
+    {
         return "Stockists";
     }
 
@@ -35,7 +38,8 @@ class StockistsCountryReports_WithoutCountry extends SS_Report {
      *
      * @return INT - for sorting reports
      */
-    function sort() {
+    public function sort()
+    {
         return 9000;
     }
 
@@ -43,14 +47,16 @@ class StockistsCountryReports_WithoutCountry extends SS_Report {
      * working out the items
      * @return DataList
      */
-    function sourceRecords($params = null) {
+    public function sourceRecords($params = null)
+    {
         return StockistCountryPage::get()->where("Country = '' OR Country IS NULL");
     }
 
     /**
      * @return Array
      */
-    function columns() {
+    public function columns()
+    {
         return array(
             "Title" => array(
                 "title" => "FullName",
@@ -63,7 +69,8 @@ class StockistsCountryReports_WithoutCountry extends SS_Report {
      *
      * @return FieldList
      */
-    public function getParameterFields() {
+    public function getParameterFields()
+    {
         return new FieldList();
     }
 }
