@@ -240,15 +240,6 @@ class StockistPage extends Page
     }
 
     /**
-     *
-     * @erturn string
-     */
-    public function AjaxLink()
-    {
-        return $this->Link("ajaxversion")."/";
-    }
-
-    /**
      * @return Distributor
      */
     public function Distributor()
@@ -306,9 +297,9 @@ class StockistPage extends Page
             $safeFieldName = Convert::raw2sql($fieldName);
             array_push($safeFieldNameArray, $safeFieldName);
         };
-        
+
         $fieldNameArray = $safeFieldNameArray;
-        
+
         $cachekey = "getPointField".'_'.$this->ID.'_'.implode('_', $fieldNameArray).'_'.preg_replace('/[^a-z\d]/i', '_', $this->LastEdited);
         $cache = SS_Cache::factory($cachekey);
         if (!($result = $cache->load($cachekey))) {
@@ -325,7 +316,7 @@ class StockistPage extends Page
                                 $tempArray[] = $point->$tempField;
                             }
                         }
-                        
+
                         $string = implode(', ', $tempArray);
                         if ($string) {
                             $array[$string] = $string;
@@ -374,7 +365,6 @@ class StockistPage extends Page
 
 class StockistPage_Controller extends Page_Controller
 {
-    private static $allowed_actions = array("ajaxversion");
 
     public function init()
     {
@@ -383,24 +373,6 @@ class StockistPage_Controller extends Page_Controller
         Config::inst()->update("GoogleMap", "default_zoom", $zoom);
         Config::inst()->update("GoogleMap", "title_div_id", "");
         $this->addMap("showpagepointsmapxml");
-    }
-
-    /**
-     * return ajax version...
-     * @return String (HTML)
-     */
-    public function ajaxversion($request)
-    {
-        if ($request->getVar("colorbox")) {
-            Requirements::clear();
-            Requirements::themedCSS("reset");
-            Requirements::themedCSS("typography");
-            Requirements::themedCSS("individualPages");
-            Requirements::javascript("https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
-            return $this->renderWith("StockistWrapper");
-        } else {
-            return $this->redirect($this->Link());
-        }
     }
 
     public function IsStockistPage()
