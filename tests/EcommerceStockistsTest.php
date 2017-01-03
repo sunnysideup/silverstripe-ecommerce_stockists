@@ -1,12 +1,13 @@
 <?php
-class EcommerceStockistsTest extends SapphireTest
-{
-    protected $usesDatabase = false;
+class EcommerceStockistsTest extends SapphireTest {
 
-    protected $requiredExtensions = array();
+	protected $usesDatabase = false;
 
-    public function testMyMethod()
-    {
-        $this->assertEquals(1, 1);
-    }
+	protected $requiredExtensions = array();
+
+	public function testMyMethod() {
+		$this->assertEquals(1, 1);
+	}
+
 }
+
