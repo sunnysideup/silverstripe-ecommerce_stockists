@@ -1,7 +1,11 @@
 ---
 Name: ecommerce_stockists
 Before: 'mysite/*'
-After: 'framework/*','cms/*', 'ecommerce/*'
+After: 
+  - 'framework/*'
+  - 'cms/*'
+  -  'ecommerce/*'
+
 ---
 
 GoogleMapLocationsDOD:
