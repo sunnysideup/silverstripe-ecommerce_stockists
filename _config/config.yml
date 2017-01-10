@@ -2,7 +2,8 @@ After:
   -
 ---
 Name: ecommerce_stockists
-Before: 'mysite/*
+Before: 
+  - 'mysite/*
   - 'framework/*'
   - 'cms/*'
   - 'ecommerce/*'
