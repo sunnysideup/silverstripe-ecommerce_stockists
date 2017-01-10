@@ -1,19 +1,21 @@
----
-Name: ecommerce_stockists
-Before: 'mysite/*'
+---
+Name: ecommerce_stockists
+Before: 'mysite/*'
 After: 
   - 
 
   - 
 
-  - 'framework/*'
-  - 'cms/*'
-  -  'ecommerce/*'
+  - 
 
----
-
-GoogleMapLocationsDOD:
-  page_classes_with_map:
-    - StockistPage
-    - StockistCountryPage
-    - StockistSearchPage
+  - 'framework/*'
+  - 'cms/*'
+  -  'ecommerce/*'
+
+---
+
+GoogleMapLocationsDOD:
+  page_classes_with_map:
+    - StockistPage
+    - StockistCountryPage
+    - StockistSearchPage
