@@ -39,6 +39,14 @@ class StockistCountryPage extends StockistSearchPage
     );
 
     /**
+     * extended by lumberjack 
+     * @var array
+     */
+    private static $extensions = array(
+        'Lumberjack',
+    );
+
+    /**
      * @inherited
      */
     //private static $indexes = array(
@@ -94,6 +102,13 @@ class StockistCountryPage extends StockistSearchPage
         $countryField = new DropdownField('CountryCode', $title, array("" => " -- please select -- ") + $countryArrayWithCodes);
         $fields->addFieldsToTab('Root.Countries', $countryField);
         $fields->addFieldsToTab('Root.Countries', new CheckboxSetField('AdditionalCountries', 'Also for ', $countryArrayWithIDs));
+        $gridField = new GridField(
+            'StockistPage',
+            'Stockists',
+            $this->Children(),
+            new GridFieldConfig_StockistPage()
+        );
+        $fields->addFieldsToTab('Root.Stockists', $gridField);
         return $fields;
     }
 

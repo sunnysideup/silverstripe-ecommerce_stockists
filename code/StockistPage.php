@@ -3,6 +3,7 @@
 class StockistPage extends Page
 {
 
+
     /**
      * @inherited
      */
@@ -12,6 +13,12 @@ class StockistPage extends Page
      * @inherited
      */
     private static $allowed_children = 'none';
+
+    /**
+     * remove from Site Tree as were using lumberjack
+     * @var boolean
+     */
+    private static $show_in_sitetree = false;
 
     /**
      * @inherited
