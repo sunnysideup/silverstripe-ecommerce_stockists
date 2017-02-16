@@ -39,7 +39,7 @@ class StockistCountryPage extends StockistSearchPage
     );
 
     /**
-     * extended by lumberjack 
+     * extended by lumberjack
      * @var array
      */
     private static $extensions = array(
@@ -106,7 +106,7 @@ class StockistCountryPage extends StockistSearchPage
             'StockistPage',
             'Stockists',
             $this->Children(),
-            new GridFieldConfig_StockistPage()
+            new GridFieldConfig_Lumberjack()
         );
         $fields->addFieldsToTab('Root.Stockists', $gridField);
         return $fields;
