@@ -336,7 +336,7 @@ class StockistCountryPage_Controller extends StockistSearchPage_Controller
             $title = $this->Title,
             $lng = 0,
             $lat = 0,
-            implode(',', $this->locationsForCurrentCountry($request)->column("ID"))
+            implode(',', $points)
         );
 
         return array();
