@@ -162,6 +162,7 @@ class StockistCountryPage extends StockistSearchPage
     }
 
     /**
+     * a list of IDs of all child StockistCountryPages (recursive) and the page itself...
      * @return Array
      */
     public function AllChildrenIDs()
@@ -169,9 +170,26 @@ class StockistCountryPage extends StockistSearchPage
         $array[$this->ID] = $this->ID;
         $countries = $this->ChildCountries();
         foreach ($countries as $country) {
+            $children = $country->AllChildrenIDs();
+            foreach($children as $childIDKey => $childIDValue) {
+                $array[$childIDKey] = $childIDValue;
+            }
             $array[$country->ID] = $country->ID;
         }
         return $array;
+    }
+
+
+    /**
+     * returns a data list of all child (recursive) GoogleMapLocationsObjects
+     * @return DataList (GoogleMapLocationsObject)
+     */
+    public function AllChildLocations()
+    {
+        $ids = $this->AllChildrenIDs();
+        $stockists = StockistPage::get()->filter(array('ParentID' => $ids));
+        return GoogleMapLocationsObject::get()
+            ->filter(array('ParentID' => $stockists->column('ID')));
     }
 
     /**
@@ -336,7 +354,7 @@ class StockistCountryPage_Controller extends StockistSearchPage_Controller
             $title = $this->Title,
             $lng = 0,
             $lat = 0,
-            implode(',', $this->locationsForCurrentCountry($request)->column("ID"))
+            implode(',', $points)
         );
 
         return array();

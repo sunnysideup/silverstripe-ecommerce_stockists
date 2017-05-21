@@ -191,6 +191,20 @@ class StockistSearchPage_Controller extends Page_Controller
                 return $objects;
             }
         }
+        $stockistCountryPage = StockistCountryPage::get()
+            ->filter(array('CountryCode' => $this->myCurrentCountryCode))
+            ->first();
+        if(! $stockistCountryPage) {
+            //use the AdditionalCountries to work out other options ...
+        }
+        if($stockistCountryPage) {
+            $list = $stockistCountryPage->AllChildLocations();
+            if($list->count()) {
+                return $list;
+            }
+        }
+
+        //final backup
         return GoogleMapLocationsObject::get();
     }
 
