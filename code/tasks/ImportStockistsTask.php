@@ -249,8 +249,8 @@ class ImportStockistsTask extends BuildTask
             DB::alteration_message("Deleting all pages!", "deleted");
             $pages = SiteTree::get()->filter(array("ClassName" => array("StockistCountryPage", "StockistPage", "StockistSearchPage")));
             foreach ($pages as $page) {
-                $page->deleteFromStage("Live");
-                $page->deleteFromStage("Stage");
+                $page->deleteFromStage('Live');
+                $page->deleteFromStage('Draft');
                 $page->delete();
             }
         }
