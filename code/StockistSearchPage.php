@@ -61,17 +61,18 @@ class StockistSearchPage extends Page
     /**
      * @inherited
      */
-   public function getCMSFields()
-   {
-       $fields = parent::getCMSFields();
-       $fields->removeByName("Map");
-       $fields->addFieldToTab(
-            "Root.SearchHistory", new LiteralField("SearchHistoryLink", "<a href=\"".$this->Link("showsearches")."\">What did people search for?</a>")
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        $fields->removeByName("Map");
+        $fields->addFieldToTab(
+            "Root.SearchHistory",
+           new LiteralField("SearchHistoryLink", "<a href=\"".$this->Link("showsearches")."\">What did people search for?</a>")
         );
-       $fields->addFieldToTab('Root.Map', $defaultZoomField = new NumericField('DefaultZoom'));
-       $defaultZoomField->setRightTitle('Set between 1 and 20.  One is the whole world and twenty is highest zoom level for map. Leave at zero for auto-zoom.');
-       return $fields;
-   }
+        $fields->addFieldToTab('Root.Map', $defaultZoomField = new NumericField('DefaultZoom'));
+        $defaultZoomField->setRightTitle('Set between 1 and 20.  One is the whole world and twenty is highest zoom level for map. Leave at zero for auto-zoom.');
+        return $fields;
+    }
 
     /**
      *
@@ -194,12 +195,12 @@ class StockistSearchPage_Controller extends Page_Controller
         $stockistCountryPage = StockistCountryPage::get()
             ->filter(array('CountryCode' => $this->myCurrentCountryCode))
             ->first();
-        if(! $stockistCountryPage) {
+        if (! $stockistCountryPage) {
             //use the AdditionalCountries to work out other options ...
         }
-        if($stockistCountryPage) {
+        if ($stockistCountryPage) {
             $list = $stockistCountryPage->AllChildLocations();
-            if($list->count()) {
+            if ($list->count()) {
                 return $list;
             }
         }

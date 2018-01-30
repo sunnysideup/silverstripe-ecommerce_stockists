@@ -171,7 +171,7 @@ class StockistCountryPage extends StockistSearchPage
         $countries = $this->ChildCountries();
         foreach ($countries as $country) {
             $children = $country->AllChildrenIDs();
-            foreach($children as $childIDKey => $childIDValue) {
+            foreach ($children as $childIDKey => $childIDValue) {
                 $array[$childIDKey] = $childIDValue;
             }
             $array[$country->ID] = $country->ID;
