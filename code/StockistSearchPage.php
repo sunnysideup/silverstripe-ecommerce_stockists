@@ -72,24 +72,26 @@ class StockistSearchPage extends Page
         $fields->addFieldToTab('Root.Map', $defaultZoomField = new NumericField('DefaultZoom'));
         $defaultZoomField->setRightTitle('Set between 1 and 20.  One is the whole world and twenty is highest zoom level for map. Leave at zero for auto-zoom.');
 
-        $countries = StockistCountryPage::get();
-        $countrySummaryHTMLArray = [];
-        foreach($countries as $country) {
-            $count = StockistPage::get()->filter(['ParentID' => $country->ID, 'ShowInSearch' => 1])->count();
-            $countrySummaryHTMLArray[] = $country->Title.': '.$count;
+        $countries = StockistCountryPage::get()->filter(['ParentID' => $this->ID]);
+        if($countries->count()) {
+            $countrySummaryHTMLArray = [];
+            foreach($countries as $country) {
+                $count = StockistPage::get()->filter(['ParentID' => $country->ID, 'ShowInSearch' => 1])->count();
+                $countrySummaryHTMLArray[] = $country->Title.': '.$count;
+            }
+            $fields->addFieldToTab(
+                'Root.Check',
+                LiteralField::create(
+                    'StockistCount',
+                    '
+                        <h2>Count per Country</h2>
+                        <ul>
+                        <li>'.implode('</li><li>', $countrySummaryHTMLArray).'
+                        </ul>
+                    '
+                )
+            );
         }
-        $fields->addFieldToTab(
-            'Root.Check',
-            LiteralField::create(
-                'StockistCount',
-                '
-                    <h2>Count per Country</h2>
-                    <ul>
-                    <li>'.implode('</li><li>', $countrySummaryHTMLArray).'
-                    </ul>
-                '
-            )
-        );
 
         return $fields;
     }
